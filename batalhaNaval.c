@@ -1,40 +1,74 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+// --- Constantes para facilitar a leitura e manutenção do código ---
+#define TAMANHO_TABULEIRO 10
+#define TAMANHO_NAVIO 3
+#define AGUA 0
+#define NAVIO 3
 
+/**
+ * Desafio Batalha Naval - Nível Novato
+ *
+ * Este programa inicializa um tabuleiro de Batalha Naval,
+ * posiciona dois navios (um horizontal e um vertical) em
+ * coordenadas fixas e exibe o estado final do tabuleiro.
+ */
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    // Declaração da matriz que representará o nosso tabuleiro
+    int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    // --- 1. Inicialização do Tabuleiro ---
+    // Usamos loops aninhados para percorrer cada célula da matriz
+    // e preenchê-la com o valor de 'AGUA' (0).
+    printf("Inicializando o tabuleiro com agua...\n\n");
+    for (int i = 0; i < TAMANHO_TABULEIRO; i++) {   // Loop para as linhas
+        for (int j = 0; j < TAMANHO_TABULEIRO; j++) { // Loop para as colunas
+            tabuleiro[i][j] = AGUA;
+        }
+    }
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    // --- 2. Posicionamento dos Navios ---
+    // As coordenadas iniciais são definidas diretamente no código.
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    // Posicionando o primeiro navio na HORIZONTAL
+    // Coordenadas: linha 2, começando na coluna 3.
+    int linha_navio_h = 2;
+    int coluna_navio_h = 3;
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    // Validação simples para garantir que o navio não saia do tabuleiro
+    if (coluna_navio_h + TAMANHO_NAVIO <= TAMANHO_TABULEIRO) {
+        // Usamos um loop para percorrer o tamanho do navio e posicioná-lo.
+        // A linha permanece a mesma, e a coluna é incrementada.
+        for (int i = 0; i < TAMANHO_NAVIO; i++) {
+            tabuleiro[linha_navio_h][coluna_navio_h + i] = NAVIO;
+        }
+    }
 
-    return 0;
+    // Posicionando o segundo navio na VERTICAL
+    // Coordenadas: coluna 7, começando na linha 5.
+    int linha_navio_v = 5;
+    int coluna_navio_v = 7;
+
+    // Validação simples para garantir que o navio não saia do tabuleiro
+    if (linha_navio_v + TAMANHO_NAVIO <= TAMANHO_TABULEIRO) {
+        // A coluna permanece a mesma, e a linha é incrementada.
+        for (int i = 0; i < TAMANHO_NAVIO; i++) {
+            tabuleiro[linha_navio_v + i][coluna_navio_v] = NAVIO;
+        }
+    }
+
+
+    // --- 3. Exibição do Tabuleiro ---
+    // Usamos novamente loops aninhados para imprimir cada célula da matriz.
+    printf("--- Tabuleiro da Batalha Naval ---\n");
+    for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
+        for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
+            // Imprime o valor da célula seguido de um espaço
+            printf("%d ", tabuleiro[i][j]);
+        }
+        // Ao final de cada linha, imprime uma quebra de linha para formar o tabuleiro
+        printf("\n");
+    }
+
+    return 0; // Indica que o programa terminou com sucesso
 }
