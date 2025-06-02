@@ -1,74 +1,81 @@
 #include <stdio.h>
 
-// --- Constantes para facilitar a leitura e manutenção do código ---
+// --- Constantes para o jogo ---
 #define TAMANHO_TABULEIRO 10
 #define TAMANHO_NAVIO 3
 #define AGUA 0
 #define NAVIO 3
 
 /**
- * Desafio Batalha Naval - Nível Novato
+ * Desafio Batalha Naval - Nível Aventureiro
  *
- * Este programa inicializa um tabuleiro de Batalha Naval,
- * posiciona dois navios (um horizontal e um vertical) em
- * coordenadas fixas e exibe o estado final do tabuleiro.
+ * Este programa inicializa um tabuleiro 10x10 e posiciona quatro
+ * navios de tamanho 3: um horizontal, um vertical e dois diagonais,
+ * um em cada tipo de diagonal (principal e secundária).
  */
 int main() {
-    // Declaração da matriz que representará o nosso tabuleiro
+    // Declaração da matriz 10x10 para o tabuleiro
     int tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
 
-    // --- 1. Inicialização do Tabuleiro ---
-    // Usamos loops aninhados para percorrer cada célula da matriz
-    // e preenchê-la com o valor de 'AGUA' (0).
-    printf("Inicializando o tabuleiro com agua...\n\n");
-    for (int i = 0; i < TAMANHO_TABULEIRO; i++) {   // Loop para as linhas
-        for (int j = 0; j < TAMANHO_TABULEIRO; j++) { // Loop para as colunas
+    // --- 1. Inicialização do Tabuleiro com Água ---
+    // Percorre toda a matriz, definindo cada célula como AGUA (0).
+    for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
+        for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
             tabuleiro[i][j] = AGUA;
         }
     }
 
-    // --- 2. Posicionamento dos Navios ---
-    // As coordenadas iniciais são definidas diretamente no código.
+    // --- 2. Posicionamento dos Quatro Navios ---
+    // As coordenadas foram escolhidas para não haver sobreposição.
 
-    // Posicionando o primeiro navio na HORIZONTAL
-    // Coordenadas: linha 2, começando na coluna 3.
-    int linha_navio_h = 2;
-    int coluna_navio_h = 3;
-
-    // Validação simples para garantir que o navio não saia do tabuleiro
-    if (coluna_navio_h + TAMANHO_NAVIO <= TAMANHO_TABULEIRO) {
-        // Usamos um loop para percorrer o tamanho do navio e posicioná-lo.
-        // A linha permanece a mesma, e a coluna é incrementada.
+    // Navio 1: HORIZONTAL (igual ao nível anterior)
+    int linha_h = 1;
+    int coluna_h = 1;
+    if (coluna_h + TAMANHO_NAVIO <= TAMANHO_TABULEIRO) {
         for (int i = 0; i < TAMANHO_NAVIO; i++) {
-            tabuleiro[linha_navio_h][coluna_navio_h + i] = NAVIO;
+            tabuleiro[linha_h][coluna_h + i] = NAVIO;
         }
     }
 
-    // Posicionando o segundo navio na VERTICAL
-    // Coordenadas: coluna 7, começando na linha 5.
-    int linha_navio_v = 5;
-    int coluna_navio_v = 7;
-
-    // Validação simples para garantir que o navio não saia do tabuleiro
-    if (linha_navio_v + TAMANHO_NAVIO <= TAMANHO_TABULEIRO) {
-        // A coluna permanece a mesma, e a linha é incrementada.
+    // Navio 2: VERTICAL (igual ao nível anterior)
+    int linha_v = 3;
+    int coluna_v = 8;
+    if (linha_v + TAMANHO_NAVIO <= TAMANHO_TABULEIRO) {
         for (int i = 0; i < TAMANHO_NAVIO; i++) {
-            tabuleiro[linha_navio_v + i][coluna_navio_v] = NAVIO;
+            tabuleiro[linha_v + i][coluna_v] = NAVIO;
         }
     }
 
+    // Navio 3: DIAGONAL PRINCIPAL (linha e coluna aumentam juntas)
+    int linha_d1 = 5;
+    int coluna_d1 = 1;
+    // Validação: garante que o navio cabe tanto na vertical quanto na horizontal
+    if (linha_d1 + TAMANHO_NAVIO <= TAMANHO_TABULEIRO && coluna_d1 + TAMANHO_NAVIO <= TAMANHO_TABULEIRO) {
+        for (int i = 0; i < TAMANHO_NAVIO; i++) {
+            // Incrementa a linha e a coluna a cada passo para formar a diagonal
+            tabuleiro[linha_d1 + i][coluna_d1 + i] = NAVIO;
+        }
+    }
 
-    // --- 3. Exibição do Tabuleiro ---
-    // Usamos novamente loops aninhados para imprimir cada célula da matriz.
-    printf("--- Tabuleiro da Batalha Naval ---\n");
+    // Navio 4: DIAGONAL SECUNDÁRIA (linha aumenta, coluna diminui)
+    int linha_d2 = 0;
+    int coluna_d2 = 8;
+    // Validação: garante que o navio cabe na vertical e não sai pela esquerda
+    if (linha_d2 + TAMANHO_NAVIO <= TAMANHO_TABULEIRO && coluna_d2 - (TAMANHO_NAVIO - 1) >= 0) {
+        for (int i = 0; i < TAMANHO_NAVIO; i++) {
+            // Incrementa a linha e DECREMENTA a coluna a cada passo
+            tabuleiro[linha_d2 + i][coluna_d2 - i] = NAVIO;
+        }
+    }
+
+    // --- 3. Exibição do Tabuleiro Completo ---
+    printf("--- Tabuleiro da Batalha Naval com 4 Navios ---\n");
     for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
         for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
-            // Imprime o valor da célula seguido de um espaço
             printf("%d ", tabuleiro[i][j]);
         }
-        // Ao final de cada linha, imprime uma quebra de linha para formar o tabuleiro
-        printf("\n");
+        printf("\n"); // Pula para a próxima linha ao final de cada linha do tabuleiro
     }
 
-    return 0; // Indica que o programa terminou com sucesso
+    return 0;
 }
